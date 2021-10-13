@@ -6,7 +6,7 @@ PageBuilder client side module for vuestorefrotn
 
 ## To check it
  Flow this gudie to install the new VUE project https://docs.vuestorefront.io/v2/general/installation.html
-```
+ 
 Install the libs and start project:
 
 0. Go to VUE project folder
