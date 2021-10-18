@@ -1,30 +1,23 @@
 <template>
   <div id="home">
-     <my-react-component text="Hello React!"/>
+    <my-react-component text="Hello React!" />
   </div>
 </template>
 <script type="module">
-import { ReactInVue } from 'vuera';
-import MyReactComponent from './Hello.js';
+import { ReactInVue } from "vuera";
+import MyReactComponent from "./PageBuilderWrapper.js";
 
-import {
-  useProduct,
-  useCart,
-  productGetters,
-} from '@vue-storefront/magento';
-import {
-  computed,
-  defineComponent,
-} from '@vue/composition-api';
-import { onSSR } from '@vue-storefront/core';
-import LazyHydrate from 'vue-lazy-hydration';
-import MobileStoreBanner from '~/components/MobileStoreBanner.vue';
-import InstagramFeed from '~/components/InstagramFeed.vue';
-import ProductsCarousel from '~/components/ProductsCarousel.vue';
+import { useProduct, useCart, productGetters } from "@vue-storefront/magento";
+import { computed, defineComponent } from "@vue/composition-api";
+import { onSSR } from "@vue-storefront/core";
+import LazyHydrate from "vue-lazy-hydration";
+import MobileStoreBanner from "~/components/MobileStoreBanner.vue";
+import InstagramFeed from "~/components/InstagramFeed.vue";
+import ProductsCarousel from "~/components/ProductsCarousel.vue";
 export default defineComponent({
-  name: 'Home',
-  components: {    
-    'my-react-component': ReactInVue(MyReactComponent)
+  name: "Home",
+  components: {
+    "my-react-component": ReactInVue(MyReactComponent),
   },
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   setup() {
@@ -32,21 +25,20 @@ export default defineComponent({
       products: newProductsResult,
       search: newProductsSearch,
       loading: newProductsLoading,
-    } = useProduct('newProducts');
-    const {
-      cart,
-      load: loadCart,
-      addItem: addToCart,
-      isInCart,
-    } = useCart();
+    } = useProduct("newProducts");
+    const { cart, load: loadCart, addItem: addToCart, isInCart } = useCart();
     // @ts-ignore
-    const newProducts = computed(() => productGetters.getFiltered(newProductsResult.value?.items, { master: true }));
+    const newProducts = computed(() =>
+      productGetters.getFiltered(newProductsResult.value?.items, {
+        master: true,
+      })
+    );
     onSSR(async () => {
       await newProductsSearch({
         pageSize: 10,
         currentPage: 1,
         sort: {
-          position: 'ASC',
+          position: "ASC",
         },
       });
       await loadCart();
@@ -60,7 +52,7 @@ export default defineComponent({
       isInCart,
     };
   },
-  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types 
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   methods: {
     // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
     toggleWishlist(index) {
@@ -70,10 +62,10 @@ export default defineComponent({
 });
 </script>
 <style lang="scss">
-	#layout{
-		max-width: inherit !important;
-	}
-	.sf-footer{
-		margin-top: 0px !important;
-	}
+#layout {
+  max-width: inherit !important;
+}
+.sf-footer {
+  margin-top: 0px !important;
+}
 </style>
