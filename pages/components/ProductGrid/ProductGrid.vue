@@ -1,6 +1,6 @@
 <template>
-  <div class="product-list">
-    <div class="overall-scroll">
+  <div class="product-grid">
+    <div class="start-grid">
       <SfProductCard
         v-for="(product, i) in products"
         data-cy="home-url_product"
@@ -9,7 +9,6 @@
         :regular-price="product.price.regular"
         :max-rating="product.rating.max"
         :score-rating="product.rating.score"
-        :show-add-to-cart-button="true"
         :is-on-wishlist="product.isInWishlist"
         link="/"
         class="carousel__item__product"
@@ -20,21 +19,40 @@
 
 <script>
 import { useProduct, productGetters } from "@vue-storefront/magento";
-import { SfProductCard } from "@storefront-ui/vue";
+import {
+  SfHero,
+  SfBanner,
+  SfCallToAction,
+  SfSection,
+  SfCarousel,
+  SfProductCard,
+  SfImage,
+  SfBannerGrid,
+  SfHeading,
+  SfArrow,
+  SfButton,
+} from "@storefront-ui/vue";
 
 export default {
   name: "ProductList",
   components: {
+    SfHero,
+    SfBanner,
+    SfCallToAction,
+    SfSection,
+    SfCarousel,
     SfProductCard,
+    SfImage,
+    SfBannerGrid,
+    SfHeading,
+    SfArrow,
+    SfButton,
   },
   setup() {
-    // const { products, search, loading } = useProduct("products2323");
-    // search({ skus: ["WH01", "WH02"] });
-    // return {
-    //   products,
-    //   productGetters,
-    // };
-    // console.log(products);
+    const { products, search, loading } = useProduct("products2323");
+    search({ skus: ["WH01", "WH02"] });
+    return { products, search, loading };
+    console.log(products);
   },
   data() {
     return {
@@ -101,30 +119,18 @@ export default {
 };
 </script>
 
-<style lang="scss">
-.product-list {
-  display: flex;
-  flex-wrap: wrap;
-  overflow: hidden;
+<style lang="scss" scoped>
+.product-grid {
+  margin: 0 30px;
+  .start-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-rows: max-content;
+    grid-column-gap: 1.2rem;
 
-  .overall-scroll {
-    display: flex;
-    width: 100%;
-    flex-wrap: nowrap;
-    -ms-overflow-style: none; /* for Internet Explorer, Edge */
-    scrollbar-width: none; /* for Firefox */
-    overflow-x: scroll;
     .carousel__item__product {
-      min-width: 10rem;
-      margin-right: 2rem;
-      .spb-item h3 {
-        margin-top: 20px !important;
-      }
+      min-width: 17rem;
     }
   }
-}
-.sf-product-card__title {
-  margin-top: 20px !important;
-  font-size: 16px !important;
 }
 </style>

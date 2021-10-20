@@ -14,8 +14,6 @@ const integrationToken = '28YbkTlt7D1T6k6KnJfMHeCGKwgaTAt11632383932';
 
 
 const PageBuilderWrapper = () => {
-  //export default class Hello extends Component {
-  //render() {
 
   const {
     loading: pbLoading,
@@ -46,7 +44,8 @@ const PageBuilderWrapper = () => {
       {
         endPoint: endPoint,
         maskedId: pageMaskedId,
-        ProductList: ProductList
+        ProductList: ProductList,
+        ProductGrid: ProductGrid
       }
     );
   } else if (pbLoading) {

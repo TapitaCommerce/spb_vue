@@ -7,7 +7,12 @@
 import { ReactInVue } from "vuera";
 import MyReactComponent from "./PageBuilderWrapper.js";
 
-import { useProduct, useCart, productGetters } from "@vue-storefront/magento";
+import {
+  useProduct,
+  useCart,
+  productGetters,
+  categoryGetters,
+} from "@vue-storefront/magento";
 import { computed, defineComponent } from "@vue/composition-api";
 import { onSSR } from "@vue-storefront/core";
 import LazyHydrate from "vue-lazy-hydration";
@@ -21,43 +26,13 @@ export default defineComponent({
   },
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   setup() {
-    const {
-      products: newProductsResult,
-      search: newProductsSearch,
-      loading: newProductsLoading,
-    } = useProduct("newProducts");
-    const { cart, load: loadCart, addItem: addToCart, isInCart } = useCart();
-    // @ts-ignore
-    const newProducts = computed(() =>
-      productGetters.getFiltered(newProductsResult.value?.items, {
-        master: true,
-      })
-    );
-    onSSR(async () => {
-      await newProductsSearch({
-        pageSize: 10,
-        currentPage: 1,
-        sort: {
-          position: "ASC",
-        },
-      });
-      await loadCart();
-    });
+    const { products, search, loading } = useProduct("products2323");
+    search({ skus: ["WH01", "WH02"] });
     return {
-      newProducts,
-      getChkId: computed(() => cart.value.id),
-      newProductsLoading,
+      products,
       productGetters,
-      addToCart,
-      isInCart,
     };
-  },
-  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-  methods: {
-    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-    toggleWishlist(index) {
-      this.products[index].isInWishlist = !this.products[index].isInWishlist;
-    },
+    console.log(products);
   },
 });
 </script>
