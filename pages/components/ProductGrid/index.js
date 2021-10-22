@@ -4,6 +4,6 @@ import ProductGridVue from './ProductGrid.vue';
 const ProductList = (props) => {
     const item = props;
     const Component = VueInReact(ProductGridVue)
-    return React.createElement(Component, {});
+    return React.createElement(Component, { VUE: window.$nuxt, item: item });
 }
 export default ProductList;

@@ -26,13 +26,14 @@ export default defineComponent({
   },
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   setup() {
-    const { products, search, loading } = useProduct("products2323");
-    search({ skus: ["WH01", "WH02"] });
-    return {
-      products,
-      productGetters,
-    };
-    console.log(products);
+    // const { products, search, loading } = useProduct("products2323");
+    // search({ skus: ["WH01", "WH02"] });
+    // const productFinal = products.value.items;
+    // console.log(productFinal);
+    // return {
+    //   products,
+    //   productGetters,
+    // };
   },
 });
 </script>

@@ -1,10 +1,8 @@
 import React, { Component, useEffect } from 'react'
 
 import { PageBuilderComponent, usePbFinder } from 'simi-pagebuilder-react'
-import Product from './Product.vue';
 import ProductGrid from './components/ProductGrid';
 import ProductList from './components/ProductList';
-import ProductScroll from './components/ProductScroll';
 
 //const storeCode = STORE_VIEW_CODE;
 
