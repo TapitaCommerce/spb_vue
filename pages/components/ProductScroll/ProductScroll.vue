@@ -1,42 +1,37 @@
 <template>
-  <div class="product-list">
-    <div class="overall-scroll">
-      <div class="loader-absolute" v-if="!products">
-        <div class="loader-productlist"></div>
-      </div>
-      <SfProductCard
-        v-for="(product, i) in products"
-        :v-if="!!products"
-        :key="productGetters.getSlug(product)"
-        v-e2e="'category-product-card'"
-        class="carousel__item__product"
-        :style="{ '--index': i }"
-        :title="productGetters.getName(product)"
-        :image="productGetters.getProductThumbnailImage(product)"
-        :regular-price="
-          VUE.$n(productGetters.getPrice(product).regular, 'currency')
-        "
-        :special-price="
-          productGetters.getPrice(product).special &&
-          VUE.$n(productGetters.getPrice(product).special, 'currency')
-        "
-        :score-rating="productGetters.getAverageRating(product)"
-        :reviews-count="productGetters.getTotalReviews(product)"
-        :show-add-to-cart-button="true"
-        :is-added-to-cart="isInCart({ product })"
-        :is-on-wishlist="product.isInWishlist"
-        :wishlist-icon="isAuthenticated ? 'heart' : false"
-        :link="
-          VUE.localePath(
-            `/p/${productGetters.getProductSku(
-              product
-            )}${productGetters.getSlug(product)}`
-          )
-        "
-        @click:wishlist="addItemToWishlist(product)"
-        @click:add-to-cart="addItemToCart({ product, quantity: 1 })"
-      />
-    </div>
+  <div>
+    <SfProductCard
+      v-for="(product, i) in products"
+      :key="productGetters.getSlug(product)"
+      v-e2e="'category-product-card'"
+      class="carousel__item__product"
+      :style="{ '--index': i }"
+      :title="productGetters.getName(product)"
+      :image="productGetters.getProductThumbnailImage(product)"
+      :regular-price="
+        VUE.$n(productGetters.getPrice(product).regular, 'currency')
+      "
+      :special-price="
+        productGetters.getPrice(product).special &&
+        VUE.$n(productGetters.getPrice(product).special, 'currency')
+      "
+      :score-rating="productGetters.getAverageRating(product)"
+      :reviews-count="productGetters.getTotalReviews(product)"
+      :show-add-to-cart-button="true"
+      :is-added-to-cart="isInCart({ product })"
+      :is-on-wishlist="product.isInWishlist"
+      :wishlist-icon="isAuthenticated ? 'heart' : false"
+      :link="
+        VUE.localePath(
+          `/p/${productGetters.getProductSku(product)}${productGetters.getSlug(
+            product,
+            product.categories[0]
+          )}`
+        )
+      "
+      @click:wishlist="addItemToWishlist(product)"
+      @click:add-to-cart="addItemToCart({ product, quantity: 1 })"
+    />
   </div>
 </template>
 
@@ -51,7 +46,7 @@ import {
 import { SfProductCard } from "@storefront-ui/vue";
 import { computed } from "@vue/composition-api";
 import { useVueRouter } from "~/helpers/hooks/useVueRouter";
-
+import { ReactInVue } from "vuera";
 export default {
   name: "ProductList",
   props: {
@@ -154,43 +149,6 @@ export default {
   display: flex;
   flex-wrap: wrap;
   overflow: hidden;
-  min-width: 100%;
-  .loader-absolute {
-    .loader-productlist {
-      border: 10px solid #f3f3f3;
-      border-radius: 50%;
-      border-top: 10px solid #5ece7b;
-      width: 50px;
-      height: 50px;
-      -webkit-animation: spin 2s linear infinite; /* Safari */
-      animation: spin 2s linear infinite;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    min-width: 100%;
-    display: flex;
-    justify-content: center;
-  }
-
-  /* Safari */
-  @-webkit-keyframes spin {
-    0% {
-      -webkit-transform: rotate(0deg);
-    }
-    100% {
-      -webkit-transform: rotate(360deg);
-    }
-  }
-
-  @keyframes spin {
-    0% {
-      transform: rotate(0deg);
-    }
-    100% {
-      transform: rotate(360deg);
-    }
-  }
 
   .overall-scroll {
     display: flex;
@@ -204,8 +162,8 @@ export default {
       display: none;
     }
     .carousel__item__product {
-      min-width: 16rem;
-      margin-right: 20px;
+      min-width: 10rem;
+      margin-right: 2rem;
       .spb-item h3 {
         margin-top: 20px !important;
       }

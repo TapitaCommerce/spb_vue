@@ -3,7 +3,8 @@ import React, { Component, useEffect } from 'react'
 import { PageBuilderComponent, usePbFinder } from 'simi-pagebuilder-react'
 import ProductGrid from './components/ProductGrid';
 import ProductList from './components/ProductList';
-
+import Category from './components/Category';
+import './style.scss';
 //const storeCode = STORE_VIEW_CODE;
 
 const endPoint = 'https://tapita.io/pb/graphql/';
@@ -35,7 +36,6 @@ const PageBuilderWrapper = () => {
         findPage(location.pathname);
     }
   }, [location, pageMaskedId, pathToFind, findPage]);
-
   if (pageMaskedId) {
     return React.createElement(
       PageBuilderComponent,
@@ -43,24 +43,23 @@ const PageBuilderWrapper = () => {
         endPoint: endPoint,
         maskedId: pageMaskedId,
         ProductList: ProductList,
-        ProductGrid: ProductGrid
+        ProductGrid: ProductGrid,
+        Category: Category
       }
     );
   } else if (pbLoading) {
     return React.createElement(
-      "div",
+      'div',
       {
-        className: "loading"
+        className: "loader"
       },
-      'Loading'
     );
   }
   return React.createElement(
-    "div",
+    'div',
     {
       className: "loading"
     },
-    'Loading'
   );
 }
 //}

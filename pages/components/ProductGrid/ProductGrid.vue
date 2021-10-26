@@ -1,8 +1,12 @@
 <template>
   <div class="product-grid">
+    <div class="loader-absolute" v-if="!products">
+      <div class="loader-productlist"></div>
+    </div>
     <div class="start-grid">
       <SfProductCard
         v-for="(product, i) in products"
+        :v-if="!!products"
         :key="productGetters.getSlug(product)"
         v-e2e="'category-product-card'"
         class="carousel__item__product"
@@ -26,7 +30,7 @@
           VUE.localePath(
             `/p/${productGetters.getProductSku(
               product
-            )}${productGetters.getSlug(product, product.categories[0])}`
+            )}${productGetters.getSlug(product)}`
           )
         "
         @click:wishlist="addItemToWishlist(product)"
@@ -44,8 +48,8 @@ import {
   useUser,
   productGetters,
 } from "@vue-storefront/magento";
-import { SfProductCard } from "@storefront-ui/vue";
-import { computed } from "@vue/composition-api";
+import { SfProductCard, SfLoader } from "@storefront-ui/vue";
+import { computed, ref } from "@vue/composition-api";
 import { useVueRouter } from "~/helpers/hooks/useVueRouter";
 
 export default {
@@ -62,6 +66,7 @@ export default {
   },
   components: {
     SfProductCard,
+    SfLoader,
   },
   setup(props, context) {
     const { router } = useVueRouter();
@@ -122,16 +127,14 @@ export default {
           category_id: { eq: String(dataParsed.openCategoryProducts) },
         };
       }
-      console.log(dataParsed);
     }
-    console.log(props.item);
-    console.log(filterData);
     const { products, search, loading } = useProduct(
       "pageBuilderProductGrid" + productString
     );
     search({
       filter: filterData,
     });
+
     const newProducts = computed(() =>
       productGetters.getFiltered(products.value?.items, { master: true })
     );
@@ -151,11 +154,57 @@ export default {
 <style lang="scss" scoped>
 .product-grid {
   margin: 0 30px;
+  min-width: 100%;
+  .loader-absolute {
+    .loader-productlist {
+      border: 10px solid #f3f3f3;
+      border-radius: 50%;
+      border-top: 10px solid #5ece7b;
+      width: 50px;
+      height: 50px;
+      -webkit-animation: spin 2s linear infinite; /* Safari */
+      animation: spin 2s linear infinite;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    min-width: 100%;
+    display: flex;
+    justify-content: center;
+    z-index: 10;
+  }
+  @-webkit-keyframes spin {
+    0% {
+      -webkit-transform: rotate(0deg);
+    }
+    100% {
+      -webkit-transform: rotate(360deg);
+    }
+  }
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
   .start-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
+    @media only screen and (max-width: 576px) {
+      grid-template-columns: repeat(1, 1fr);
+      padding: 0 20px;
+      margin: 0;
+    }
+    @media only screen and (max-width: 768px) and (min-width: 576px) {
+      grid-template-columns: repeat(2, 1fr);
+      padding: 0 50px;
+    }
     grid-auto-rows: max-content;
     grid-column-gap: 1.2rem;
+    min-width: 100%;
 
     .carousel__item__product {
       min-width: 17rem;
