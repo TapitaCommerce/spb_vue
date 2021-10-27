@@ -4,6 +4,7 @@ import { PageBuilderComponent, usePbFinder } from 'simi-pagebuilder-react'
 import ProductGrid from './components/ProductGrid';
 import ProductList from './components/ProductList';
 import Category from './components/Category';
+import CategoryList from './components/CategoryList';
 import './style.scss';
 //const storeCode = STORE_VIEW_CODE;
 
@@ -44,7 +45,8 @@ const PageBuilderWrapper = () => {
         maskedId: pageMaskedId,
         ProductList: ProductList,
         ProductGrid: ProductGrid,
-        Category: Category
+        Category: Category,
+        CategoryScroll: CategoryList
       }
     );
   } else if (pbLoading) {

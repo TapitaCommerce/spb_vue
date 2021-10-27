@@ -1,29 +1,27 @@
 <template>
-  <div v-if="category.data && category.data.categories" class="category__image">
-    <SfLink
-      :link="
-        VUE.localePath(
-          `/c/${category.data.categories.items[0].url_path}${category.data.categories.items[0].url_suffix}`
-        )
-      "
-    >
-      <SfImage
-        :src="categoryImage"
-        :alt="category.data.categories.items[0].name"
-        :width="200"
-        :height="200"
-      />
-    </SfLink>
+  <div class="category-list" v-if="categories && categoryImage">
+    <div v-for="category in categories" class="category-list-item">
+      <SfLink
+        :link="VUE.localePath(`/c/${category.url_path}${category.url_suffix}`)"
+      >
+        <SfImage
+          :src="categoryImage"
+          :alt="category.name"
+          :width="200"
+          :height="200"
+        />
+      </SfLink>
+    </div>
   </div>
-  <div class="category-loader" v-else>
-    <div class="loader-category"></div>
+  <div class="categoryList-loader" v-else>
+    <div class="loader-categorylist"></div>
   </div>
 </template>
 
 <script>
 import { SfLink, SfImage } from "@storefront-ui/vue";
 import { categoryGetters } from "@vue-storefront/magento";
-import { customQuery } from "./customQuery.ts";
+import { customQueryCategoryTree } from "./customQueryCategoryTree.ts";
 import { computed, ref } from "@vue/composition-api";
 export default {
   name: "Category",
@@ -49,19 +47,23 @@ export default {
         : null;
     const categoryImage =
       item && item.dataParsed ? item.dataParsed.image : null;
+    console.log(item.dataParsed);
     const filterData = { ids: { eq: String(idToFind) } };
-    const { query, result } = customQuery("hello");
+    const { query, result } = customQueryCategoryTree("categoryTree");
     query({
       variables: {
         filters: filterData,
       },
     });
-    const category = computed(() => {
-      return result.value;
+    const categories = computed(() => {
+      if (result.value.data && result.value.data.categoryList) {
+        return result.value.data.categoryList[0].children;
+      }
+      return "";
     });
     return {
       categoryGetters,
-      category,
+      categories,
       categoryImage,
     };
   },
@@ -69,13 +71,17 @@ export default {
 </script>
 
 <style lang="scss">
-.category__image {
+.category-list {
   display: flex;
+  overflow: hidden;
+  min-width: 100%;
   justify-content: center;
-  background: #fff;
+  .category-list-item {
+    margin: 10px;
+  }
 }
-.category-loader {
-  .loader-category {
+.categoryList-loader {
+  .loader-categorylist {
     border: 10px solid #f3f3f3;
     border-radius: 50%;
     border-top: 10px solid #5ece7b;
