@@ -20,6 +20,7 @@ export default defineComponent({
 <style lang="scss">
 #layout {
   max-width: inherit !important;
+  min-height: 70vh;
 }
 .sf-footer {
   margin-top: 0px !important;
