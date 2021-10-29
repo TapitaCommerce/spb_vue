@@ -3,55 +3,101 @@
     <div id="overall-scroll" class="overall-scroll">
       <div class="loader-absolute" v-if="!products">
         <div class="loader-productlist"></div>
-      </div>   
-        <div
-          v-for="(product, i) in products"
-          :key="i"
-          class="carousel_item"
-          id="carousel_item"
-          ref="carousel_item"
-        >
-          <SfProductCard
-            :v-if="!!products"
-            :key="productGetters.getSlug(product)"
-            v-e2e="'category-product-card'"
-            class="carousel__item__product"
-            :style="{ '--index': i }"
-            :title="productGetters.getName(product)"
-            :image="productGetters.getProductThumbnailImage(product)"
-            :regular-price="
-              VUE.$n(productGetters.getPrice(product).regular, 'currency')
-            "
-            :special-price="
-              productGetters.getPrice(product).special &&
-              VUE.$n(productGetters.getPrice(product).special, 'currency')
-            "
-            :score-rating="productGetters.getAverageRating(product)"
-            :reviews-count="productGetters.getTotalReviews(product)"
-            :show-add-to-cart-button="true"
-            :is-added-to-cart="isInCart({ product })"
-            :is-on-wishlist="product.isInWishlist"
-            :wishlist-icon="isAuthenticated ? 'heart' : false"
-            :link="
-              VUE.localePath(
-                `/p/${productGetters.getProductSku(
-                  product
-                )}${productGetters.getSlug(product)}`
-              )
-            "
-            @click:wishlist="addItemToWishlist(product)"
-            @click:add-to-cart="addItemToCart({ product, quantity: 1 })"
-          />
-        </div> 
+      </div>
+      <div
+        v-for="(product, i) in products"
+        :key="i"
+        class="carousel_item"
+        id="carousel_item"
+        ref="carousel_item"
+      >
+        <SfProductCard
+          :v-if="!!products"
+          :key="productGetters.getSlug(product)"
+          v-e2e="'category-product-card'"
+          class="carousel__item__product"
+          :style="{ '--index': i }"
+          :title="productGetters.getName(product)"
+          :image="productGetters.getProductThumbnailImage(product)"
+          :regular-price="
+            VUE.$n(productGetters.getPrice(product).regular, 'currency')
+          "
+          :special-price="
+            productGetters.getPrice(product).special &&
+            VUE.$n(productGetters.getPrice(product).special, 'currency')
+          "
+          :score-rating="productGetters.getAverageRating(product)"
+          :reviews-count="productGetters.getTotalReviews(product)"
+          :show-add-to-cart-button="true"
+          :is-added-to-cart="isInCart({ product })"
+          :is-on-wishlist="product.isInWishlist"
+          :wishlist-icon="isAuthenticated ? 'heart' : false"
+          :link="
+            VUE.localePath(
+              `/p/${productGetters.getProductSku(
+                product
+              )}${productGetters.getSlug(product)}`
+            )
+          "
+          @click:wishlist="addItemToWishlist(product)"
+          @click:add-to-cart="addItemToCart({ product, quantity: 1 })"
+        />
+      </div>
     </div>
     <div class="pb-action" v-if="products">
-      <button link="" type="button" class="sf-arrow sf-button" v-on:click="slide('left')">
-        <span class="sf-arrow__icon sf-icon" style="--icon-size:1.5rem;"><svg viewBox="0 0 24 24" preserveAspectRatio="none" class="sf-icon-path"><!----> <path d="M24 13L2 13L2 11L24 11L24 13Z" fill="var(--icon-color)" style="height: 100%;"></path><path d="M6.61667 6L8 7.25423L2.76478 12L8 16.7458L6.61667 18L-5.24538e-07 12L6.61667 6Z" fill="var(--icon-color)" style="height: 100%;"></path></svg></span>
-      </button> 
+      <button
+        link=""
+        type="button"
+        class="sf-arrow sf-button"
+        v-on:click="slide('left')"
+      >
+        <span class="sf-arrow__icon sf-icon" style="--icon-size: 1.5rem"
+          ><svg
+            viewBox="0 0 24 24"
+            preserveAspectRatio="none"
+            class="sf-icon-path"
+          >
+            <!---->
+            <path
+              d="M24 13L2 13L2 11L24 11L24 13Z"
+              fill="var(--icon-color)"
+              style="height: 100%"
+            ></path>
+            <path
+              d="M6.61667 6L8 7.25423L2.76478 12L8 16.7458L6.61667 18L-5.24538e-07 12L6.61667 6Z"
+              fill="var(--icon-color)"
+              style="height: 100%"
+            ></path></svg
+        ></span>
+      </button>
 
-        <button link="" type="button" class="sf-arrow--right sf-arrow sf-button" v-on:click="slide('right')">
-          <span class="sf-arrow--right sf-arrow__icon sf-icon" style="--icon-size:1.5rem;"><svg viewBox="0 0 24 24" preserveAspectRatio="none" class="sf-icon-path"><!----> <path d="M24 13L2 13L2 11L24 11L24 13Z" fill="var(--icon-color)" style="height: 100%;"></path><path d="M6.61667 6L8 7.25423L2.76478 12L8 16.7458L6.61667 18L-5.24538e-07 12L6.61667 6Z" fill="var(--icon-color)" style="height: 100%;"></path></svg></span>
-        </button>
+      <button
+        link=""
+        type="button"
+        class="sf-arrow--right sf-arrow sf-button"
+        v-on:click="slide('right')"
+      >
+        <span
+          class="sf-arrow--right sf-arrow__icon sf-icon"
+          style="--icon-size: 1.5rem"
+          ><svg
+            viewBox="0 0 24 24"
+            preserveAspectRatio="none"
+            class="sf-icon-path"
+          >
+            <!---->
+            <path
+              d="M24 13L2 13L2 11L24 11L24 13Z"
+              fill="var(--icon-color)"
+              style="height: 100%"
+            ></path>
+            <path
+              d="M6.61667 6L8 7.25423L2.76478 12L8 16.7458L6.61667 18L-5.24538e-07 12L6.61667 6Z"
+              fill="var(--icon-color)"
+              style="height: 100%"
+            ></path></svg
+        ></span>
+      </button>
     </div>
   </div>
 </template>
@@ -67,7 +113,6 @@ import {
 import { SfProductCard, SfArrow, SfCarousel } from "@storefront-ui/vue";
 import { computed } from "@vue/composition-api";
 import { useVueRouter } from "~/helpers/hooks/useVueRouter";
-
 export default {
   name: "ProductList",
   props: {
@@ -85,28 +130,27 @@ export default {
     SfArrow,
     SfCarousel,
   },
-
   methods: {
-    slide (direction) {
-        var container = document.getElementById('overall-scroll');
-        let scrollCompleted = 0;
-        var slideVar = setInterval(function(){
-            if(direction == 'left'){
-                container.scrollLeft -= 50;
-            } else {
-                container.scrollLeft += 50;
-            }
-            scrollCompleted += 10;
-            if(scrollCompleted >= 100){
-                window.clearInterval(slideVar);
-            }
-        }, 100);
-    }
-},
+    slide(direction) {
+      var container = document.getElementById("overall-scroll");
+      let scrollCompleted = 0;
+      var slideVar = setInterval(function () {
+        if (direction == "left") {
+          container.scrollLeft -= 50;
+        } else {
+          container.scrollLeft += 50;
+        }
+        scrollCompleted += 10;
+        if (scrollCompleted >= 100) {
+          window.clearInterval(slideVar);
+        }
+      }, 100);
+    },
+  },
   setup(props, context) {
     const { router } = useVueRouter();
     const { isAuthenticated } = useUser();
-    let maxSteps = 1;
+
     const { addItem: addItemToCartBase, isInCart } = useCart();
     const {
       addItem: addItemToWishlistBase,
@@ -144,6 +188,8 @@ export default {
     };
     let beginCategory = null;
     let productString;
+    let sortData;
+    let pageSize = 12;
     let filterData = { category_id: { eq: beginCategory } };
     if (props.item && props.item.dataParsed) {
       productString = Math.random();
@@ -162,18 +208,28 @@ export default {
           category_id: { eq: String(dataParsed.openCategoryProducts) },
         };
       }
+      if (dataParsed.openProductsWidthSortPageSize) {
+        pageSize = parseInt(dataParsed.openProductsWidthSortPageSize);
+      }
+      if (dataParsed.openProductsWidthSortAtt) {
+        const directionToSort = dataParsed.openProductsWidthSortDir
+          ? dataParsed.openProductsWidthSortDir.toUpperCase()
+          : "ASC";
+        sortData = {};
+        sortData[dataParsed.openProductsWidthSortAtt] = directionToSort;
+      }
     }
     const { products, search, loading } = useProduct(
       "pageBuilderProductList" + productString
     );
     search({
       filter: filterData,
+      pageSize: pageSize,
+      sort: sortData,
     });
     const productFinal = computed(() => {
       return products.value.items;
     });
-
-    
 
     return {
       products: productFinal,
@@ -182,7 +238,7 @@ export default {
       addItemToCart,
       isInWishlist,
       addItemToWishlist,
-      isAuthenticated
+      isAuthenticated,
     };
   },
 };
@@ -216,7 +272,6 @@ export default {
     display: flex;
     justify-content: center;
   }
-
   /* Safari */
   @-webkit-keyframes spin {
     0% {
@@ -226,7 +281,6 @@ export default {
       -webkit-transform: rotate(360deg);
     }
   }
-
   @keyframes spin {
     0% {
       transform: rotate(0deg);
@@ -235,7 +289,6 @@ export default {
       transform: rotate(360deg);
     }
   }
-
   .overall-scroll {
     scroll-behavior: smooth;
     display: flex;
@@ -272,12 +325,12 @@ export default {
     display: none;
   }
 }
-.pb-action{
-    display: flex;
-    width: 100%;
-    justify-content: end;
-    .sf-arrow--right{
-      margin: 0px 10px;
-    }
+.pb-action {
+  display: flex;
+  width: 100%;
+  justify-content: end;
+  .sf-arrow--right {
+    margin: 0px 10px;
+  }
 }
 </style>

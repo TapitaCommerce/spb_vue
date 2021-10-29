@@ -5,13 +5,12 @@ import ProductGrid from './components/ProductGrid';
 import ProductList from './components/ProductList';
 import Category from './components/Category';
 import CategoryList from './components/CategoryList';
-import './style.scss'
-
+import './style.scss';
 //const storeCode = STORE_VIEW_CODE;
 
 const endPoint = 'https://tapita.io/pb/graphql/';
 // const integrationToken = '14FJiubdB8n3Byig2IkpfM6OiS6RTO801622446444';
-const integrationToken = '28YbkTlt7D1T6k6KnJfMHeCGKwgaTAt11632383932';
+const integrationToken = '17nMVmUJAxdditfSvAqBqoC6VJKTKpD21626949895';
 
 
 const RegularPage = () => {
@@ -27,7 +26,7 @@ const RegularPage = () => {
         integrationToken,
         getPageItems: true
     });
-    console.log('a', pageData);
+
 
     useEffect(() => {
         if (
@@ -52,10 +51,14 @@ const RegularPage = () => {
         );
     } else if (pbLoading) {
         return React.createElement(
-            "div",
+            'div',
             {
-                className: "loader"
+                className: "pb-background"
             },
+            [
+                React.createElement('div', { className: "loader" }),
+                React.createElement('img', { className: "splash-img", src: "/pb/1556608.jpeg" })
+            ]
         );
     }
     return React.createElement(
