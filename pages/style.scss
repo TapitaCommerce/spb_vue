@@ -1,12 +1,16 @@
+
+
 .loader {
-    border: 10px solid #f3f3f3;
+    border: 5px solid #f3f3f3;
     border-radius: 50%;
-    border-top: 10px solid #5ece7b;
+    border-top: 5px solid #5ece7b;
     width: 50px;
     height: 50px;
     -webkit-animation: spin 2s linear infinite; /* Safari */
-    animation: spin 2s linear infinite;
-    margin: 10% 50%;
+    animation: spin 2s linear infinite;    
+    left: 50%;
+    top: 30%;
+    position: absolute;
   }
   
   /* Safari */
@@ -19,3 +23,22 @@
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
   }
+
+
+
+.splash-img{
+  position: absolute;
+    left: 50%;
+    top: 50%;
+    -webkit-transform: translateY(-50%) translateX(-50%);
+    z-index: -1;
+    width: 100%;
+    max-width: 1024px;
+}
+
+@media only screen and (max-width: 480px) {
+  .loader {     
+      left: 44%;
+      top: 50%;      
+    }
+}

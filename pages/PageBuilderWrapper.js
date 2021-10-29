@@ -10,7 +10,7 @@ import './style.scss';
 
 const endPoint = 'https://tapita.io/pb/graphql/';
 // const integrationToken = '14FJiubdB8n3Byig2IkpfM6OiS6RTO801622446444';
-const integrationToken = '28YbkTlt7D1T6k6KnJfMHeCGKwgaTAt11632383932';
+const integrationToken = '17nMVmUJAxdditfSvAqBqoC6VJKTKpD21626949895';
 
 
 const PageBuilderWrapper = () => {
@@ -36,8 +36,8 @@ const PageBuilderWrapper = () => {
       if (!pageMaskedId || location.pathname !== pathToFind)
         findPage(location.pathname);
     }
-  }, [location, pageMaskedId, pathToFind, findPage]);
-  if (pageMaskedId) {
+  }, [location, pageMaskedId, pathToFind, findPage]);  
+  if (pageMaskedId) {    
     return React.createElement(
       PageBuilderComponent,
       {
@@ -53,15 +53,23 @@ const PageBuilderWrapper = () => {
     return React.createElement(
       'div',
       {
-        className: "loader"
+        className: "pb-background"
       },
+      [
+          React.createElement('div', {className: "loader"}),     
+          React.createElement('img', {className: "splash-img", src:"/pb/1556608.jpeg"})        
+      ]
     );
   }
   return React.createElement(
     'div',
     {
-      className: "loading"
+      className: "pb-background"
     },
+    [
+        React.createElement('div', {className: "loader"}),     
+        React.createElement('img', {className: "splash-img", src:"/pb/1556608.jpeg"})        
+    ]
   );
 }
 //}
