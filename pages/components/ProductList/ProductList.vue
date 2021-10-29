@@ -4,38 +4,49 @@
       <div class="loader-absolute" v-if="!products">
         <div class="loader-productlist"></div>
       </div>
-      <SfProductCard
-        v-for="(product, i) in products"
-        :v-if="!!products"
-        :key="productGetters.getSlug(product)"
-        v-e2e="'category-product-card'"
-        class="carousel__item__product"
-        :style="{ '--index': i }"
-        :title="productGetters.getName(product)"
-        :image="productGetters.getProductThumbnailImage(product)"
-        :regular-price="
-          VUE.$n(productGetters.getPrice(product).regular, 'currency')
-        "
-        :special-price="
-          productGetters.getPrice(product).special &&
-          VUE.$n(productGetters.getPrice(product).special, 'currency')
-        "
-        :score-rating="productGetters.getAverageRating(product)"
-        :reviews-count="productGetters.getTotalReviews(product)"
-        :show-add-to-cart-button="true"
-        :is-added-to-cart="isInCart({ product })"
-        :is-on-wishlist="product.isInWishlist"
-        :wishlist-icon="isAuthenticated ? 'heart' : false"
-        :link="
-          VUE.localePath(
-            `/p/${productGetters.getProductSku(
-              product
-            )}${productGetters.getSlug(product)}`
-          )
-        "
-        @click:wishlist="addItemToWishlist(product)"
-        @click:add-to-cart="addItemToCart({ product, quantity: 1 })"
-      />
+      <SfCarousel
+        data-cy="related-products-carousel"
+        :settings="{ peek: 16, breakpoints: { 1023: { peek: 0, perView: 2 } } }"
+        class="carousel"
+      >
+        <SfCarouselItem
+          v-for="(product, i) in products"
+          :key="i"
+          class="carousel__item"
+        >
+          <SfProductCard
+            :v-if="!!products"
+            :key="productGetters.getSlug(product)"
+            v-e2e="'category-product-card'"
+            class="carousel__item__product"
+            :style="{ '--index': i }"
+            :title="productGetters.getName(product)"
+            :image="productGetters.getProductThumbnailImage(product)"
+            :regular-price="
+              VUE.$n(productGetters.getPrice(product).regular, 'currency')
+            "
+            :special-price="
+              productGetters.getPrice(product).special &&
+              VUE.$n(productGetters.getPrice(product).special, 'currency')
+            "
+            :score-rating="productGetters.getAverageRating(product)"
+            :reviews-count="productGetters.getTotalReviews(product)"
+            :show-add-to-cart-button="true"
+            :is-added-to-cart="isInCart({ product })"
+            :is-on-wishlist="product.isInWishlist"
+            :wishlist-icon="isAuthenticated ? 'heart' : false"
+            :link="
+              VUE.localePath(
+                `/p/${productGetters.getProductSku(
+                  product
+                )}${productGetters.getSlug(product)}`
+              )
+            "
+            @click:wishlist="addItemToWishlist(product)"
+            @click:add-to-cart="addItemToCart({ product, quantity: 1 })"
+          />
+        </SfCarouselItem>
+      </SfCarousel>
     </div>
   </div>
 </template>
@@ -48,7 +59,7 @@ import {
   useUser,
   productGetters,
 } from "@vue-storefront/magento";
-import { SfProductCard } from "@storefront-ui/vue";
+import { SfProductCard, SfArrow, SfCarousel } from "@storefront-ui/vue";
 import { computed } from "@vue/composition-api";
 import { useVueRouter } from "~/helpers/hooks/useVueRouter";
 
@@ -66,11 +77,13 @@ export default {
   },
   components: {
     SfProductCard,
+    SfArrow,
+    SfCarousel,
   },
   setup(props, context) {
     const { router } = useVueRouter();
     const { isAuthenticated } = useUser();
-
+    let maxSteps = 1;
     const { addItem: addItemToCartBase, isInCart } = useCart();
     const {
       addItem: addItemToWishlistBase,
@@ -155,6 +168,11 @@ export default {
   flex-wrap: wrap;
   overflow: hidden;
   min-width: 100%;
+  .arrow-product-list {
+    display: flex;
+    width: 100%;
+    justify-content: right;
+  }
   .loader-absolute {
     .loader-productlist {
       border: 10px solid #f3f3f3;
@@ -215,5 +233,16 @@ export default {
 .sf-product-card__title {
   margin-top: 20px !important;
   font-size: 16px !important;
+}
+.glide {
+  max-width: 18rem;
+}
+.sf-carousel__wrapper {
+  overflow: auto;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 </style>

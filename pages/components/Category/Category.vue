@@ -50,7 +50,7 @@ export default {
     const categoryImage =
       item && item.dataParsed ? item.dataParsed.image : null;
     const filterData = { ids: { eq: String(idToFind) } };
-    const { query, result } = customQuery("hello");
+    const { query, result } = customQuery("category");
     query({
       variables: {
         filters: filterData,

@@ -1,6 +1,6 @@
 <template>
   <div id="home">
-    <my-react-component text="Hello React!" />
+    <react-wrapper-component />
   </div>
 </template>
 <script type="module">
@@ -11,7 +11,7 @@ import { computed, defineComponent } from "@vue/composition-api";
 export default defineComponent({
   name: "Home",
   components: {
-    "my-react-component": ReactInVue(MyReactComponent),
+    "react-wrapper-component": ReactInVue(MyReactComponent),
   },
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   setup() {},
