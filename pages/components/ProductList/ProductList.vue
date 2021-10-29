@@ -201,9 +201,9 @@ export default {
   }
   .loader-absolute {
     .loader-productlist {
-      border: 10px solid #f3f3f3;
+      border: 4px solid #f3f3f3;
       border-radius: 50%;
-      border-top: 10px solid #5ece7b;
+      border-top: 4px solid #5ece7b;
       width: 50px;
       height: 50px;
       -webkit-animation: spin 2s linear infinite; /* Safari */
