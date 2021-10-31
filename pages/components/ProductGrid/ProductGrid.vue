@@ -51,7 +51,6 @@ import {
 import { SfProductCard, SfLoader } from "@storefront-ui/vue";
 import { computed, ref } from "@vue/composition-api";
 import { useVueRouter } from "~/helpers/hooks/useVueRouter";
-
 export default {
   name: "ProductList",
   props: {
@@ -71,7 +70,6 @@ export default {
   setup(props, context) {
     const { router } = useVueRouter();
     const { isAuthenticated } = useUser();
-
     const { addItem: addItemToCartBase, isInCart } = useCart();
     const {
       addItem: addItemToWishlistBase,
@@ -109,6 +107,8 @@ export default {
     };
     let beginCategory = null;
     let productString;
+    let sortData;
+    let pageSize = 12;
     let filterData = { category_id: { eq: beginCategory } };
     if (props.item && props.item.data) {
       productString = Math.random();
@@ -127,14 +127,25 @@ export default {
           category_id: { eq: String(dataParsed.openCategoryProducts) },
         };
       }
+      if (dataParsed.openProductsWidthSortPageSize) {
+        pageSize = parseInt(dataParsed.openProductsWidthSortPageSize);
+      }
+      if (dataParsed.openProductsWidthSortAtt) {
+        const directionToSort = dataParsed.openProductsWidthSortDir
+          ? dataParsed.openProductsWidthSortDir.toUpperCase()
+          : "ASC";
+        sortData = {};
+        sortData[dataParsed.openProductsWidthSortAtt] = directionToSort;
+      }
     }
     const { products, search, loading } = useProduct(
       "pageBuilderProductGrid" + productString
     );
     search({
       filter: filterData,
+      pageSize: pageSize,
+      sort: sortData,
     });
-
     const newProducts = computed(() =>
       productGetters.getFiltered(products.value?.items, { master: true })
     );
@@ -150,7 +161,6 @@ export default {
   },
 };
 </script>
-
 <style lang="scss" scoped>
 .product-grid {
   margin: 0 30px;
@@ -181,7 +191,6 @@ export default {
       -webkit-transform: rotate(360deg);
     }
   }
-
   @keyframes spin {
     0% {
       transform: rotate(0deg);
@@ -205,7 +214,6 @@ export default {
     grid-auto-rows: max-content;
     grid-column-gap: 1.2rem;
     min-width: 100%;
-
     .carousel__item__product {
       min-width: 17rem;
     }
