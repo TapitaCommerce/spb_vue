@@ -35,11 +35,11 @@ yarn install
 1. At VUE project folder 
 2. Git clone https://github.com/TapitaCommerce/spb_vue.git builder_pages
 ```
-Git clone https://github.com/TapitaCommerce/spb_vue.git builder_pages
+git clone https://github.com/TapitaCommerce/spb_vue.git builder_pages
 ```
 3. Override pages 
 ```
-cp -Rf ./builder_pages/pages ./pages
+cp -Rf ./builder_pages/pages/ ./pages
 ```
 4. Run to build 
 ```
