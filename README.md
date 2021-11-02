@@ -41,7 +41,11 @@ git clone https://github.com/TapitaCommerce/spb_vue.git builder_pages
 ```
 cp -Rf ./builder_pages/pages/ ./pages
 ```
-4. Run to build 
+4. Update your key
+```
+  Copy Integration Token at tapita.io and replace it at the files ./pages/PageBuilderWrapper.js and ./pages/RegularPage.js
+```
+5. Run to build 
 ```
   yarn dev
 ```
