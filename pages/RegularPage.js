@@ -5,12 +5,8 @@ import ProductGrid from './components/ProductGrid';
 import ProductList from './components/ProductList';
 import Category from './components/Category';
 import CategoryList from './components/CategoryList';
+import { endPoint, integrationToken, storeCode } from './PageBuilderConfig.js';
 import './style.scss';
-//const storeCode = STORE_VIEW_CODE;
-
-const endPoint = 'https://tapita.io/pb/graphql/';
-// const integrationToken = '14FJiubdB8n3Byig2IkpfM6OiS6RTO801622446444';
-const integrationToken = '17nMVmUJAxdditfSvAqBqoC6VJKTKpD21626949895';
 
 
 const RegularPage = () => {
@@ -24,6 +20,7 @@ const RegularPage = () => {
     } = usePbFinder({
         endPoint,
         integrationToken,
+        storeCode,
         getPageItems: true
     });
 
