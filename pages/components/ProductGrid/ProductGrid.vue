@@ -49,8 +49,9 @@ import {
   productGetters,
 } from "@vue-storefront/magento";
 import { SfProductCard, SfLoader } from "@storefront-ui/vue";
-import { computed, ref } from "@vue/composition-api";
-import { useVueRouter } from "~/helpers/hooks/useVueRouter";
+import { computed, ref } from "@nuxtjs/composition-api";
+import { useRouter } from  '@nuxtjs/composition-api';
+
 export default {
   name: "ProductList",
   props: {
@@ -68,7 +69,7 @@ export default {
     SfLoader,
   },
   setup(props, context) {
-    const { router } = useVueRouter();
+    const router = useRouter();
     const { isAuthenticated } = useUser();
     const { addItem: addItemToCartBase, isInCart } = useCart();
     const {

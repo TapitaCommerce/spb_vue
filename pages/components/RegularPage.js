@@ -42,7 +42,6 @@ const RegularPage = () => {
         return React.createElement(
             PageBuilderComponent,
             {
-                key: pageMaskedId,
                 endPoint: endPoint,
                 maskedId: pageMaskedId,
                 ProductList: ProductList,
@@ -55,8 +54,7 @@ const RegularPage = () => {
         return React.createElement(
             'div',
             {
-                className: "pb-background",
-                key: 'loading'
+                className: "pb-background"
             },
             [
                 React.createElement('div', { className: "loader" }),
@@ -67,8 +65,7 @@ const RegularPage = () => {
     return React.createElement(
         "h1",
         {
-            style: { textAlign: 'center', marginTop: '200px', marginBottom: '200px' },
-            key: 'based'
+            style: { textAlign: 'center', marginTop: '200px', marginBottom: '200px' }
         },
         'Page not found'
     );

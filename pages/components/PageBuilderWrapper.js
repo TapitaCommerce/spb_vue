@@ -13,7 +13,9 @@ const endPoint = 'https://tapita.io/pb/graphql/';
 // const integrationToken = '17nMVmUJAxdditfSvAqBqoC6VJKTKpD21626949895';
 const integrationToken = '29yAg9xIdZynZOiIOcZ5JlMWz3MWgHxn1629093956';
 
+
 const PageBuilderWrapper = () => {
+
   const {
     loading: pbLoading,
     pageMaskedId,
@@ -36,12 +38,10 @@ const PageBuilderWrapper = () => {
         findPage(location.pathname);
     }
   }, [location, pageMaskedId, pathToFind, findPage]);
-
   if (pageMaskedId) {
     return React.createElement(
       PageBuilderComponent,
       {
-        key: pageMaskedId,
         endPoint: endPoint,
         maskedId: pageMaskedId,
         ProductList: ProductList,
@@ -54,8 +54,7 @@ const PageBuilderWrapper = () => {
     return React.createElement(
       'div',
       {
-        className: "pb-background",
-        key: 'loader'
+        className: "pb-background"
       },
       [
           React.createElement('div', {className: "loader"}),
@@ -66,8 +65,7 @@ const PageBuilderWrapper = () => {
   return React.createElement(
     'div',
     {
-      className: "pb-background",
-      key: 'based'
+      className: "pb-background"
     },
     [
         React.createElement('div', {className: "loader"}),
