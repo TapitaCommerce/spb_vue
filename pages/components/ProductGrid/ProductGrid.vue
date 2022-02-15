@@ -142,10 +142,17 @@ export default {
     const { products, search, loading } = useProduct(
       "pageBuilderProductGrid" + productString
     );
-    search({
+
+    console.log({
       filter: filterData,
       pageSize: pageSize,
       sort: sortData,
+    })
+
+    search({
+      filter: filterData,
+      pageSize: pageSize,
+      // sort: sortData,
     });
     const newProducts = computed(() =>
       productGetters.getFiltered(products.value?.items, { master: true })
