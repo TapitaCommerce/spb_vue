@@ -51,6 +51,7 @@ import {
 import { SfProductCard, SfLoader } from "@storefront-ui/vue";
 import { computed, ref } from "@nuxtjs/composition-api";
 import { useRouter } from  '@nuxtjs/composition-api';
+import {getBaseCategory} from "~/helpers/tapita/getBaseCategory";
 
 export default {
   name: "ProductList",
@@ -110,7 +111,8 @@ export default {
     let productString;
     let sortData;
     let pageSize = 12;
-    let filterData = { category_id: { eq: beginCategory } };
+    let filterData = {category_id: {eq: beginCategory || getBaseCategory()}};
+
     if (props.item && props.item.data) {
       productString = Math.random();
       const dataParsed = props.item.data;
@@ -142,12 +144,6 @@ export default {
     const { products, search, loading } = useProduct(
       "pageBuilderProductGrid" + productString
     );
-
-    console.log({
-      filter: filterData,
-      pageSize: pageSize,
-      sort: sortData,
-    })
 
     search({
       filter: filterData,

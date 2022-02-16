@@ -50,7 +50,7 @@ git clone https://github.com/TapitaCommerce/spb_vue.git builder_pages
 At root folder
 
 ```
-cp -a ./builder_pages/ ./
+cp -a ./builder_pages/ ./ 2> /dev/null
 ```
 
 4. Update your key

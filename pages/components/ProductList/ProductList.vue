@@ -116,6 +116,7 @@ import {computed} from "@nuxtjs/composition-api";
 import {useRouter} from '@nuxtjs/composition-api';
 import {getRandomString} from '/helpers/tapita/getRandomString';
 import {checkElementVisible} from '/helpers/tapita/checkElementVisible';
+import {getBaseCategory} from "~/helpers/tapita/getBaseCategory";
 
 export default {
   name: "ProductList",
@@ -216,7 +217,8 @@ export default {
     let productString;
     let sortData;
     let pageSize = 12;
-    let filterData = {category_id: {eq: beginCategory}};
+    let filterData = {category_id: {eq: beginCategory || getBaseCategory()}};
+
     if (props.item && props.item.dataParsed) {
       productString = Math.random();
       const dataParsed = props.item.dataParsed;

@@ -47,7 +47,7 @@ export default {
         : null;
     const categoryImage =
       item && item.dataParsed ? item.dataParsed.image : null;
-    console.log(item.dataParsed);
+
     const filterData = { ids: { eq: String(idToFind) } };
     const { query, result } = customQueryCategoryTree("categoryTree");
     query({

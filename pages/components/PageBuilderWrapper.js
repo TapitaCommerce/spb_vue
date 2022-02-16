@@ -1,6 +1,6 @@
-import React, { Component, useEffect } from 'react'
+import React, {Component, useEffect} from 'react'
 
-import { PageBuilderComponent, usePbFinder } from 'simi-pagebuilder-react'
+import {PageBuilderComponent, usePbFinder} from 'simi-pagebuilder-react'
 import ProductGrid from './ProductGrid';
 import ProductList from './ProductList';
 import Category from './Category';
@@ -10,9 +10,7 @@ import '../style.scss';
 
 const endPoint = 'https://tapita.io/pb/graphql/';
 // const integrationToken = '14FJiubdB8n3Byig2IkpfM6OiS6RTO801622446444';
-// const integrationToken = '17nMVmUJAxdditfSvAqBqoC6VJKTKpD21626949895';
-const integrationToken = '29yAg9xIdZynZOiIOcZ5JlMWz3MWgHxn1629093956';
-
+const integrationToken = '17nMVmUJAxdditfSvAqBqoC6VJKTKpD21626949895';
 
 const PageBuilderWrapper = () => {
 
@@ -57,8 +55,8 @@ const PageBuilderWrapper = () => {
         className: "pb-background"
       },
       [
-          React.createElement('div', {className: "loader"}),
-          React.createElement('img', {className: "splash-img", src:"/pb/1556608.jpeg"})
+        React.createElement('div', {className: "loader"}),
+        React.createElement('img', {className: "splash-img", src: "/pb/1556608.jpeg"})
       ]
     );
   }
@@ -68,8 +66,8 @@ const PageBuilderWrapper = () => {
       className: "pb-background"
     },
     [
-        React.createElement('div', {className: "loader"}),
-        React.createElement('img', {className: "splash-img", src:"/pb/1556608.jpeg"})
+      React.createElement('div', {className: "loader"}),
+      React.createElement('img', {className: "splash-img", src: "/pb/1556608.jpeg"})
     ]
   );
 }
