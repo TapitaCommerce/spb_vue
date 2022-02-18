@@ -9,8 +9,8 @@ import './style.scss';
 //const storeCode = STORE_VIEW_CODE;
 
 const endPoint = 'https://tapita.io/pb/graphql/';
-// const integrationToken = '14FJiubdB8n3Byig2IkpfM6OiS6RTO801622446444';
-const integrationToken = '17nMVmUJAxdditfSvAqBqoC6VJKTKpD21626949895';
+const integrationToken = '14FJiubdB8n3Byig2IkpfM6OiS6RTO801622446444';
+//const integrationToken = '17nMVmUJAxdditfSvAqBqoC6VJKTKpD21626949895';
 
 const PageBuilderWrapper = () => {
   const {
