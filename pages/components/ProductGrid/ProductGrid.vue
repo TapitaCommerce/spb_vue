@@ -50,7 +50,7 @@ import {
 } from "@vue-storefront/magento";
 import { SfProductCard, SfLoader } from "@storefront-ui/vue";
 import { computed, ref } from "@nuxtjs/composition-api";
-import { useRouter } from  '@nuxtjs/composition-api';
+import {useNavigationHook as useRouter} from '~/helpers/tapita/useNavigationHook';
 import {getBaseCategory} from "~/helpers/tapita/getBaseCategory";
 
 export default {

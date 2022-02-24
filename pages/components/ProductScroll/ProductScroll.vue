@@ -45,7 +45,7 @@ import {
 } from "@vue-storefront/magento";
 import {SfProductCard} from "@storefront-ui/vue";
 import {computed} from "@nuxtjs/composition-api";
-import {useRouter} from '@nuxtjs/composition-api';
+import {useNavigationHook as useRouter} from '~/helpers/tapita/useNavigationHook';
 import {ReactInVue} from "vuera";
 import {getBaseCategory} from "~/helpers/tapita/getBaseCategory";
 
