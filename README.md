@@ -21,13 +21,13 @@ yarn add vuera
 2. Install Tapita tool
 
 ```
-npm install --save simi-pagebuilder-react
+yarn add --save simi-pagebuilder-react
 ```
 
 3. Install React
 
 ```
-npm install --save react react-dom
+yarn add --save react react-dom
 ```
 
 4. Install again to avoid the conflicts
@@ -50,7 +50,7 @@ git clone https://github.com/TapitaCommerce/spb_vue.git builder_pages
 At root folder
 
 ```
-cp -a ./builder_pages/ ./ 2> /dev/null
+cp -a ./builder_pages/ ./
 ```
 
 4. Update your key
