@@ -22,7 +22,7 @@
 import { SfLink, SfImage } from "@storefront-ui/vue";
 import { categoryGetters } from "@vue-storefront/magento";
 import { customQueryCategoryTree } from "./customQueryCategoryTree.ts";
-import { computed, ref } from "@vue/composition-api";
+import { computed, ref } from "@nuxtjs/composition-api";
 export default {
   name: "Category",
   props: {
@@ -47,7 +47,7 @@ export default {
         : null;
     const categoryImage =
       item && item.dataParsed ? item.dataParsed.image : null;
-    console.log(item.dataParsed);
+
     const filterData = { ids: { eq: String(idToFind) } };
     const { query, result } = customQueryCategoryTree("categoryTree");
     query({

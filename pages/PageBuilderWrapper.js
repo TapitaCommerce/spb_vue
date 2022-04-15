@@ -1,4 +1,4 @@
-import React, { Component, useEffect } from 'react'
+import React, { useEffect } from 'react'
 
 import { PageBuilderComponent, usePbFinder } from 'simi-pagebuilder-react'
 import ProductGrid from './components/ProductGrid';
@@ -6,15 +6,12 @@ import ProductList from './components/ProductList';
 import Category from './components/Category';
 import CategoryList from './components/CategoryList';
 import './style.scss';
-//const storeCode = STORE_VIEW_CODE;
+import {extractBaseUrlForTapitaQuery} from "~/builder_pages/helpers/tapita/extractBaseUrlForTapitaQuery";
 
 const endPoint = 'https://tapita.io/pb/graphql/';
-// const integrationToken = '14FJiubdB8n3Byig2IkpfM6OiS6RTO801622446444';
-const integrationToken = '17nMVmUJAxdditfSvAqBqoC6VJKTKpD21626949895';
-
+const integrationToken = '150kG2pgFhmxb6zJVJFSyTAV4oAV1JXc1623205870';
 
 const PageBuilderWrapper = () => {
-
   const {
     loading: pbLoading,
     pageMaskedId,
@@ -28,21 +25,19 @@ const PageBuilderWrapper = () => {
   });
 
   useEffect(() => {
-    if (
-      location &&
-      location.pathname &&
-      location.pathname === '/'
-    ) {
-      if (!pageMaskedId || location.pathname !== pathToFind)
-        findPage(location.pathname);
+      if (!pageMaskedId || location.pathname !== pathToFind){
+        findPage(extractBaseUrlForTapitaQuery(location.pathname));
     }
-  }, [location, pageMaskedId, pathToFind, findPage]);  
-  if (pageMaskedId) {    
+  }, [location, pageMaskedId, pathToFind, findPage]);
+
+  if (pageMaskedId && pageMaskedId !== 'notfound') {
     return React.createElement(
       PageBuilderComponent,
       {
+        key: pageMaskedId,
         endPoint: endPoint,
         maskedId: pageMaskedId,
+        pageData: pageData,
         ProductList: ProductList,
         ProductGrid: ProductGrid,
         Category: Category,
@@ -53,25 +48,26 @@ const PageBuilderWrapper = () => {
     return React.createElement(
       'div',
       {
-        className: "pb-background"
+        className: "pb-background",
+        key: 'loader'
       },
       [
-          React.createElement('div', {className: "loader"}),     
-          React.createElement('img', {className: "splash-img", src:"/pb/1556608.jpeg"})        
+          React.createElement('div', {className: "loader"}),
+          React.createElement('img', {className: "splash-img", src:"/pb/1556608.jpeg"})
       ]
     );
   }
   return React.createElement(
     'div',
     {
-      className: "pb-background"
+      className: "pb-background",
+      key: 'based'
     },
     [
-        React.createElement('div', {className: "loader"}),     
-        React.createElement('img', {className: "splash-img", src:"/pb/1556608.jpeg"})        
+        React.createElement('div', {className: "loader"}),
+        React.createElement('img', {className: "splash-img", src:"/pb/1556608.jpeg"})
     ]
   );
 }
-//}
 
 export default PageBuilderWrapper;

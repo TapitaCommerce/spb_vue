@@ -7,7 +7,7 @@
 import { ReactInVue } from "vuera";
 import RegularPageComponent from "./RegularPage.js";
 
-import { computed, defineComponent } from "@vue/composition-api";
+import { computed, defineComponent } from "@nuxtjs/composition-api";
 export default defineComponent({
   name: "Home",
   components: {

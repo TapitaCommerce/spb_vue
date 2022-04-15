@@ -49,8 +49,9 @@ import {
   productGetters,
 } from "@vue-storefront/magento";
 import { SfProductCard, SfLoader } from "@storefront-ui/vue";
-import { computed, ref } from "@vue/composition-api";
-import { useVueRouter } from "~/helpers/hooks/useVueRouter";
+import { computed, ref } from "@nuxtjs/composition-api";
+import {getBaseCategory} from "~/helpers/tapita/getBaseCategory";
+
 export default {
   name: "ProductList",
   props: {
@@ -68,7 +69,7 @@ export default {
     SfLoader,
   },
   setup(props, context) {
-    const { router } = useVueRouter();
+    const router = props.VUE.router;
     const { isAuthenticated } = useUser();
     const { addItem: addItemToCartBase, isInCart } = useCart();
     const {
@@ -109,7 +110,8 @@ export default {
     let productString;
     let sortData;
     let pageSize = 12;
-    let filterData = { category_id: { eq: beginCategory } };
+    let filterData = {category_id: {eq: beginCategory || getBaseCategory()}};
+
     if (props.item && props.item.data) {
       productString = Math.random();
       const dataParsed = props.item.data;
@@ -141,10 +143,11 @@ export default {
     const { products, search, loading } = useProduct(
       "pageBuilderProductGrid" + productString
     );
+
     search({
       filter: filterData,
       pageSize: pageSize,
-      sort: sortData,
+      // sort: sortData,
     });
     const newProducts = computed(() =>
       productGetters.getFiltered(products.value?.items, { master: true })

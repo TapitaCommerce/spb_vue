@@ -1,6 +1,6 @@
 <template>
-  <div class="product-list">
-    <div id="overall-scroll" class="overall-scroll">
+  <div class="product-list" :class="uniqId">
+    <div class="overall-scroll overall-scroll">
       <div class="loader-absolute" v-if="!products">
         <div class="loader-productlist"></div>
       </div>
@@ -8,6 +8,7 @@
         v-for="(product, i) in products"
         :key="i"
         class="carousel_item"
+        :class="'product-count-'+i"
         id="carousel_item"
         ref="carousel_item"
       >
@@ -49,14 +50,14 @@
         link=""
         type="button"
         class="sf-arrow sf-button"
-        v-on:click="slide('left')"
+        v-on:click="slide('left', uniqId, products)"
       >
         <span class="sf-arrow__icon sf-icon" style="--icon-size: 1.5rem"
-          ><svg
-            viewBox="0 0 24 24"
-            preserveAspectRatio="none"
-            class="sf-icon-path"
-          >
+        ><svg
+          viewBox="0 0 24 24"
+          preserveAspectRatio="none"
+          class="sf-icon-path"
+        >
             <!---->
             <path
               d="M24 13L2 13L2 11L24 11L24 13Z"
@@ -75,16 +76,16 @@
         link=""
         type="button"
         class="sf-arrow--right sf-arrow sf-button"
-        v-on:click="slide('right')"
+        v-on:click="slide('right', uniqId, products)"
       >
         <span
           class="sf-arrow--right sf-arrow__icon sf-icon"
           style="--icon-size: 1.5rem"
-          ><svg
-            viewBox="0 0 24 24"
-            preserveAspectRatio="none"
-            class="sf-icon-path"
-          >
+        ><svg
+          viewBox="0 0 24 24"
+          preserveAspectRatio="none"
+          class="sf-icon-path"
+        >
             <!---->
             <path
               d="M24 13L2 13L2 11L24 11L24 13Z"
@@ -110,9 +111,12 @@ import {
   useUser,
   productGetters,
 } from "@vue-storefront/magento";
-import { SfProductCard, SfArrow, SfCarousel } from "@storefront-ui/vue";
-import { computed } from "@vue/composition-api";
-import { useVueRouter } from "~/helpers/hooks/useVueRouter";
+import {SfProductCard, SfArrow, SfCarousel} from "@storefront-ui/vue";
+import {computed} from "@nuxtjs/composition-api";
+import {getRandomString} from '/helpers/tapita/getRandomString';
+import {checkElementVisible} from '/helpers/tapita/checkElementVisible';
+import {getBaseCategory} from "~/helpers/tapita/getBaseCategory";
+
 export default {
   name: "ProductList",
   props: {
@@ -131,33 +135,57 @@ export default {
     SfCarousel,
   },
   methods: {
-    slide(direction) {
-      var container = document.getElementById("overall-scroll");
-      let scrollCompleted = 0;
-      var slideVar = setInterval(function () {
-        if (direction == "left") {
-          container.scrollLeft -= 50;
-        } else {
-          container.scrollLeft += 50;
+    getProductClassFromIndex(index) {
+      return 'product-count-' + index
+    },
+    slide(direction, uniqId, products) {
+      const container = document.querySelector(`.${uniqId} > .overall-scroll`);
+
+      const productLength = products.length
+
+      if (!container || productLength === 0) {
+        return null
+      }
+      let firstVisibleProductIndex = null;
+      let lastVisibleProductIndex = null;
+
+      for (let i = 0; i < productLength; i++) {
+        const targetClassProduct = this.getProductClassFromIndex(i)
+        const target = container.querySelector(`.${targetClassProduct}`)
+
+        if (checkElementVisible(target)) {
+          if (firstVisibleProductIndex === null) {
+            firstVisibleProductIndex = i;
+          }
+          lastVisibleProductIndex = i
         }
-        scrollCompleted += 10;
-        if (scrollCompleted >= 100) {
-          window.clearInterval(slideVar);
-        }
-      }, 100);
+      }
+      const scrollToTargetIndex = (direction === 'left') ?
+        (((firstVisibleProductIndex ?? 0) - 1) % productLength)
+        : (((lastVisibleProductIndex ?? 0) + 1) % productLength)
+
+      const scrollToProductClass = this.getProductClassFromIndex(scrollToTargetIndex)
+      const finalTargetToScrollTo = container.querySelector(`.${scrollToProductClass}`)
+
+      if (finalTargetToScrollTo) {
+        finalTargetToScrollTo.scrollIntoView({block: 'nearest', inline: 'start'});
+      }
     },
   },
   setup(props, context) {
-    const { router } = useVueRouter();
-    const { isAuthenticated } = useUser();
+    const router = props.VUE.router;
 
-    const { addItem: addItemToCartBase, isInCart } = useCart();
+    const uniqId = getRandomString()
+    // const router = useRouter();
+    const {isAuthenticated} = useUser();
+
+    const {addItem: addItemToCartBase, isInCart} = useCart();
     const {
       addItem: addItemToWishlistBase,
       isInWishlist,
       removeItem: removeItemFromWishlist,
     } = useWishlist();
-    const addItemToCart = async ({ product, quantity }) => {
+    const addItemToCart = async ({product, quantity}) => {
       // eslint-disable-next-line no-underscore-dangle
       const productType = product.__typename;
       switch (productType) {
@@ -182,15 +210,16 @@ export default {
       }
     };
     const addItemToWishlist = async (product) => {
-      await (isInWishlist({ product })
-        ? removeItemFromWishlist({ product })
-        : addItemToWishlistBase({ product }));
+      await (isInWishlist({product})
+        ? removeItemFromWishlist({product})
+        : addItemToWishlistBase({product}));
     };
     let beginCategory = null;
     let productString;
     let sortData;
     let pageSize = 12;
-    let filterData = { category_id: { eq: beginCategory } };
+    let filterData = {category_id: {eq: beginCategory || getBaseCategory()}};
+
     if (props.item && props.item.dataParsed) {
       productString = Math.random();
       const dataParsed = props.item.dataParsed;
@@ -205,7 +234,7 @@ export default {
         };
       } else if (dataParsed.openCategoryProducts) {
         filterData = {
-          category_id: { eq: String(dataParsed.openCategoryProducts) },
+          category_id: {eq: String(dataParsed.openCategoryProducts)},
         };
       }
       if (dataParsed.openProductsWidthSortPageSize) {
@@ -219,7 +248,7 @@ export default {
         sortData[dataParsed.openProductsWidthSortAtt] = directionToSort;
       }
     }
-    const { products, search, loading } = useProduct(
+    const {products, search, loading} = useProduct(
       "pageBuilderProductList" + productString
     );
     search({
@@ -239,6 +268,7 @@ export default {
       isInWishlist,
       addItemToWishlist,
       isAuthenticated,
+      uniqId
     };
   },
 };
@@ -250,11 +280,13 @@ export default {
   flex-wrap: wrap;
   overflow: hidden;
   min-width: 100%;
+
   .arrow-product-list {
     display: flex;
     width: 100%;
     justify-content: right;
   }
+
   .loader-absolute {
     .loader-productlist {
       border: 4px solid #f3f3f3;
@@ -268,10 +300,12 @@ export default {
       align-items: center;
       justify-content: center;
     }
+
     min-width: 100%;
     display: flex;
     justify-content: center;
   }
+
   /* Safari */
   @-webkit-keyframes spin {
     0% {
@@ -289,6 +323,7 @@ export default {
       transform: rotate(360deg);
     }
   }
+
   .overall-scroll {
     scroll-behavior: smooth;
     display: flex;
@@ -298,37 +333,46 @@ export default {
     margin-bottom: 30px;
     -ms-overflow-style: none;
     scrollbar-width: none;
+
     &::-webkit-scrollbar {
       display: none;
     }
+
     .carousel__item__product {
       min-width: 16rem;
       margin-right: 20px;
+
       .spb-item h3 {
         margin-top: 20px !important;
       }
     }
   }
 }
+
 .sf-product-card__title {
   margin-top: 20px !important;
   font-size: 16px !important;
 }
+
 .glide {
   max-width: 18rem;
 }
+
 .sf-carousel__wrapper {
   overflow: auto;
   -ms-overflow-style: none;
   scrollbar-width: none;
+
   &::-webkit-scrollbar {
     display: none;
   }
 }
+
 .pb-action {
   display: flex;
   width: 100%;
   justify-content: end;
+
   .sf-arrow--right {
     margin: 0px 10px;
   }

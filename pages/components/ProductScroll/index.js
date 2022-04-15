@@ -7,6 +7,7 @@ const ProductScroll = (props) => {
     } = props;
     const items = JSON.stringify(item);
     const Component = VueInReact(ProductScrollVue)
-    return React.createElement(Component, { VUE: window.$nuxt, item: item });
+
+  return React.createElement(Component, { VUE: window.$nuxt, item: item });
 }
 export default ProductScroll;

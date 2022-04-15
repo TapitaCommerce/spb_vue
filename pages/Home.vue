@@ -7,14 +7,15 @@
 import { ReactInVue } from "vuera";
 import MyReactComponent from "./PageBuilderWrapper.js";
 
-import { computed, defineComponent } from "@vue/composition-api";
+import { computed, defineComponent } from "@nuxtjs/composition-api";
 export default defineComponent({
   name: "Home",
   components: {
     "react-wrapper-component": ReactInVue(MyReactComponent),
   },
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-  setup() {},
+  setup() {
+  },
 });
 </script>
 <style lang="scss">

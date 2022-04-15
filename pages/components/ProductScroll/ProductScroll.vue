@@ -43,10 +43,10 @@ import {
   useUser,
   productGetters,
 } from "@vue-storefront/magento";
-import { SfProductCard } from "@storefront-ui/vue";
-import { computed } from "@vue/composition-api";
-import { useVueRouter } from "~/helpers/hooks/useVueRouter";
-import { ReactInVue } from "vuera";
+import {SfProductCard} from "@storefront-ui/vue";
+import {computed} from "@nuxtjs/composition-api";
+import {getBaseCategory} from "~/helpers/tapita/getBaseCategory";
+
 export default {
   name: "ProductList",
   props: {
@@ -63,16 +63,18 @@ export default {
     SfProductCard,
   },
   setup(props, context) {
-    const { router } = useVueRouter();
-    const { isAuthenticated } = useUser();
+    const router = props.VUE.router;
 
-    const { addItem: addItemToCartBase, isInCart } = useCart();
+    // const router = useRouter();
+    const {isAuthenticated} = useUser();
+
+    const {addItem: addItemToCartBase, isInCart} = useCart();
     const {
       addItem: addItemToWishlistBase,
       isInWishlist,
       removeItem: removeItemFromWishlist,
     } = useWishlist();
-    const addItemToCart = async ({ product, quantity }) => {
+    const addItemToCart = async ({product, quantity}) => {
       // eslint-disable-next-line no-underscore-dangle
       const productType = product.__typename;
       switch (productType) {
@@ -97,13 +99,14 @@ export default {
       }
     };
     const addItemToWishlist = async (product) => {
-      await (isInWishlist({ product })
-        ? removeItemFromWishlist({ product })
-        : addItemToWishlistBase({ product }));
+      await (isInWishlist({product})
+        ? removeItemFromWishlist({product})
+        : addItemToWishlistBase({product}));
     };
     let beginCategory = null;
     let productString;
-    let filterData = { category_id: { eq: beginCategory } };
+    let filterData = {category_id: {eq: beginCategory || getBaseCategory()}};
+
     if (props.item && props.item.dataParsed) {
       productString = Math.random();
       const dataParsed = props.item.dataParsed;
@@ -118,11 +121,11 @@ export default {
         };
       } else if (dataParsed.openCategoryProducts) {
         filterData = {
-          category_id: { eq: String(dataParsed.openCategoryProducts) },
+          category_id: {eq: String(dataParsed.openCategoryProducts)},
         };
       }
     }
-    const { products, search, loading } = useProduct(
+    const {products, search, loading} = useProduct(
       "pageBuilderProductList" + productString
     );
     search({
@@ -158,18 +161,22 @@ export default {
     margin-bottom: 30px;
     -ms-overflow-style: none;
     scrollbar-width: none;
+
     &::-webkit-scrollbar {
       display: none;
     }
+
     .carousel__item__product {
       min-width: 10rem;
       margin-right: 2rem;
+
       .spb-item h3 {
         margin-top: 20px !important;
       }
     }
   }
 }
+
 .sf-product-card__title {
   margin-top: 20px !important;
   font-size: 16px !important;
