@@ -45,26 +45,30 @@ yarn install
 git clone https://github.com/TapitaCommerce/spb_vue.git builder_pages
 ```
 
-3. Override pages
+3. (Optional)
 
-At root folder
+* Delete `.git` and `README.md`
+
+5. Override pages
+
+At root folder. Please __DO NOT USE SUDO__.
 
 ```
-cp -a ./builder_pages/ ./ 2> /dev/null
+cp -a ./builder_pages/* ./ 2> /dev/null
 ```
 
-4. Update your key
+5. Update your key
 
 ```
   Copy Integration Token at tapita.io and replace it at the files ./pages/PageBuilderWrapper.js and ./pages/RegularPage.js
 ```
 
-5. Initialize env variable
+6. Initialize env variable
 
 * Copy `.env` from `.env.sample`
 * Fill in urls
 
-6. Run to build
+7. Run to start
 
 ```
   yarn dev
