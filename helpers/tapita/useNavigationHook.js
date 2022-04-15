@@ -1,3 +1,11 @@
-import {useRouter} from '@nuxtjs/composition-api';
+import {useVueRouter} from '~/helpers/hooks/useVueRouter';
 
-export const useNavigationHook = useRouter
+const compositionApi = require('@nuxtjs/composition-api')
+
+const usePlaceholderHook = () => {
+  const {router} = useVueRouter()
+  return router
+}
+
+export const useNavigationHook = (compositionApi && compositionApi.useRouter) ?
+  compositionApi.useRouter : usePlaceholderHook

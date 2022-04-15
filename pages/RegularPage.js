@@ -12,7 +12,6 @@ const endPoint = 'https://tapita.io/pb/graphql/';
 const integrationToken = '14FJiubdB8n3Byig2IkpfM6OiS6RTO801622446444';
 
 const RegularPage = () => {
-
     const {
         loading: pbLoading,
         pageMaskedId,

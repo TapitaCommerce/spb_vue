@@ -113,11 +113,9 @@ import {
 } from "@vue-storefront/magento";
 import {SfProductCard, SfArrow, SfCarousel} from "@storefront-ui/vue";
 import {computed} from "@nuxtjs/composition-api";
-import {useNavigationHook as useRouter} from '~/helpers/tapita/useNavigationHook';
-import {getRandomString} from '/helpers/tapita/getRandomString';
-import {checkElementVisible} from '/helpers/tapita/checkElementVisible';
+import {getRandomString} from '~/helpers/tapita/getRandomString';
+import {checkElementVisible} from '~/helpers/tapita/checkElementVisible';
 import {getBaseCategory} from "~/helpers/tapita/getBaseCategory";
-import {useNavigationHook} from "~/helpers/tapita/useNavigationHook";
 
 export default {
   name: "ProductList",
@@ -175,11 +173,11 @@ export default {
     },
   },
   setup(props, context) {
-    useNavigationHook()
-    const uniqId = getRandomString()
-    const router = useRouter();
-    const {isAuthenticated} = useUser();
+    const router = props.VUE.router;
 
+    const uniqId = getRandomString()
+    // const router = useRouter();
+    const {isAuthenticated} = useUser();
     const {addItem: addItemToCartBase, isInCart} = useCart();
     const {
       addItem: addItemToWishlistBase,

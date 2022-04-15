@@ -6,6 +6,10 @@ export const extractBaseUrlForTapitaQuery = (url) => {
 
   const splittedComponents = normalizedURL.split('/')
 
+  if (splittedComponents.length > 0 && splittedComponents[0] !== 'default') {
+    return url
+  }
+
   if (splittedComponents.length >= 2) {
     return '/' + splittedComponents[splittedComponents.length - 1]
   } else {

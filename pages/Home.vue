@@ -14,7 +14,8 @@ export default defineComponent({
     "react-wrapper-component": ReactInVue(MyReactComponent),
   },
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-  setup() {},
+  setup() {
+  },
 });
 </script>
 <style lang="scss">
